@@ -19,8 +19,16 @@ export default function PricingSection() {
             <div className="container-main flex flex-col items-center px-4 sm:px-6 lg:px-8">
                 <div className="w-full max-w-4xl rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 md:p-16 flex flex-col items-center text-center shadow-sm">
                     <p className="font-poppins-bold text-black text-lg md:text-xl mb-2">Részvételi Díj</p>
-                    <h2 className="font-poppins-extrab text-[3.25rem] sm:text-6xl md:text-[5.5rem] text-black mb-10 sm:mb-14 leading-none origin-bottom">
-                        {formatPrice(tier.price)}
+                    <h2 className="font-poppins-extrab text-[3.25rem] sm:text-6xl md:text-[5.5rem] text-black mb-10 sm:mb-14 leading-none origin-bottom border-b-4 border-green pb-2">
+                        {tier.isCombo ? (
+                            <div className="flex flex-col items-center">
+                                <span className="text-4xl md:text-5xl opacity-40 line-through mb-2">{formatPrice(tier.price * 2)} helyett</span>
+                                <span>{formatPrice(tier.comboPrice)}</span>
+                                <span className="text-xl md:text-2xl font-poppins-med mt-2 opacity-60">(Mindkét tárgy együtt)</span>
+                            </div>
+                        ) : (
+                            formatPrice(tier.price)
+                        )}
                     </h2>
 
                     <div className="w-full text-left bg-transparent flex flex-col gap-4 max-w-3xl mb-12">
@@ -59,13 +67,14 @@ export default function PricingSection() {
                     {/* Countdown urgency banner */}
                     <div className="w-full max-w-2xl mb-6 flex flex-col items-center gap-2">
                         <p className="flex items-center gap-1.5 text-xs font-poppins-bold uppercase tracking-[0.2em] text-red-500/80 whitespace-nowrap">
-                            <Clock className="w-4 h-4 text-red-500/80 shrink-0" strokeWidth={3.5} /> A {tier.label.toLowerCase()} ({formatPrice(tier.price)}) {tier.deadline}-ig él
+                            <Clock className="w-4 h-4 text-red-500/80 shrink-0" strokeWidth={3.5} /> A {tier.label.toLowerCase()} ({formatPrice(tier.isCombo ? tier.comboPrice : tier.price)}) {tier.deadlineLabel}-ig él
                         </p>
                         <NavCountdown dark />
                     </div>
 
-                    <button className="bg-[#ff3b30] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex items-center justify-center shadow-lg">
-                        Jelentkezem {formatPrice(tier.price)}-ért
+                    <button className="bg-[#ff3b30] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex flex-col items-center justify-center shadow-lg">
+                        <span>Jelentkezem {formatPrice(tier.isCombo ? tier.comboPrice : tier.price)}-ért</span>
+                        {tier.isCombo && <span className="text-xs opacity-80 mt-1">(Töri + Magyar ismétlés)</span>}
                     </button>
                 </div>
 

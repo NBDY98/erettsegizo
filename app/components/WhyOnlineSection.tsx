@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
 
 const CARDS = [
@@ -58,18 +59,19 @@ export default function WhyOnlineSection() {
                                 </p>
                             </div>
                             <div className={card.imgContainerClass}>
-                                <img
+                                <Image
                                     src={card.img}
                                     alt={card.title}
+                                    width={800}
+                                    height={600}
                                     className={`shadow-md ${card.imgClass}`}
-                                    loading="lazy"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                             </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Bottom CTA Area */}
                 <div className="w-full max-w-4xl mt-20 sm:mt-24 md:mt-36 text-center flex flex-col items-center px-2">
                     <h3 className="font-poppins-med text-[1.35rem] sm:text-3xl md:text-4xl text-black mb-8 sm:mb-10 leading-snug">
                         Menj be úgy az érettségire, hogy tudod <br className="block sm:hidden" /><span className="font-poppins-bold">mindenen végigmentél.</span>

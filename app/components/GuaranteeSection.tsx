@@ -5,6 +5,7 @@ import About1 from "./bits/about-1";
 import { NavCountdown } from "./Navbar";
 import { getCurrentPriceTier, formatPrice } from "@/app/lib/pricing";
 import { Clock } from "lucide-react";
+import Carousel from "./bits/carousel";
 
 function PriceUrgencyBlock() {
     const [tier, setTier] = useState<any>(null);
@@ -18,17 +19,40 @@ function PriceUrgencyBlock() {
     return (
         <div className="w-full max-w-2xl bg-white rounded-3xl p-8 border border-gray-100 shadow-xl flex flex-col items-center gap-4">
             <p className="flex items-center gap-2 text-sm font-poppins-bold uppercase tracking-[0.15em] text-red-500">
-                <Clock className="w-4 h-4 shrink-0" strokeWidth={3} /> {tier.label} {tier.deadline}-ig: {formatPrice(tier.price)}
+                <Clock className="w-4 h-4 shrink-0" strokeWidth={3} /> {tier.label} {tier.deadlineLabel}-ig: {formatPrice(tier.isCombo ? tier.comboPrice : tier.price)}
             </p>
             <NavCountdown dark />
-            <button className="bg-[#ff3b30] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex items-center justify-center shadow-lg">
-                Jelentkezem {formatPrice(tier.price)}-ért
+            <button className="bg-[#ff3b30] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex flex-col items-center justify-center shadow-lg">
+                <span>Jelentkezem {formatPrice(tier.isCombo ? tier.comboPrice : tier.price)}-ért</span>
+                {tier.isCombo && <span className="text-xs opacity-80 mt-1">(Töri + Magyar ismétlés)</span>}
             </button>
         </div>
     );
 }
 
 export default function GuaranteeSection() {
+    const slideData = [
+        {
+            title: "Ceo Csaba",
+            button: "CEO & Alapító",
+            src: "https://images.unsplash.com/photo-1615109398623-88346a601842?q=80&w=687",
+        },
+        {
+            title: "Múlt Márta",
+            button: "Történelem tanár",
+            src: "https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=687",
+        },
+        {
+            title: "Magyar Péter",
+            button: "Magyar tanár",
+            src: "https://images.unsplash.com/photo-1590086782957-93c06ef21604?q=80&w=687",
+        },
+        {
+            title: "Teszt Titanilla",
+            button: "Magyar-történelem szakos tanár",
+            src: "https://images.unsplash.com/photo-1590650213165-c1fef80648c4?q=80&w=687",
+        },
+    ];
     return (
         <section className="w-full py-16 md:py-24 bg-[#FAFAFA]">
             <div className="container-main flex flex-col items-center px-4 sm:px-6 lg:px-8 text-center">
@@ -60,9 +84,8 @@ export default function GuaranteeSection() {
 
             </div>
 
-            <div className="w-full max-w-7xl mx-auto mt-12">
-                {/* A displayProgressIndicators bekapcsolása segíti a navigációt mobilon */}
-                <About1 />
+            <div className="relative overflow-hidden w-full h-full py-20">
+                <Carousel slides={slideData} />
             </div>
         </section>
     );

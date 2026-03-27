@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -13,7 +14,14 @@ export default function Footer() {
                 <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 border-b border-white/10 pb-10 md:pb-14 mb-10 md:mb-14">
                     <div className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                         <Link href="/">
-                            <img src="/svg/erettsegizo-w.svg" alt="Érettségiző.hu" className="h-12 md:h-16 object-contain" />
+                            <Image
+                                src="/svg/erettsegizo-w.svg"
+                                alt="Érettségiző.hu"
+                                width={200}
+                                height={64}
+                                className="h-12 md:h-16 w-auto object-contain"
+                                priority
+                            />
                         </Link>
                     </div>
 

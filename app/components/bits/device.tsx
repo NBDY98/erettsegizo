@@ -236,9 +236,6 @@ const Device = React.forwardRef<HTMLDivElement, DeviceProps>(
             transformStyle: "preserve-3d",
             display: "inline-block",
           }}
-          animate={{
-            scale: isHovering || autoAnimate ? 1.02 : 1,
-          }}
           transition={{
             scale: {
               type: "spring",

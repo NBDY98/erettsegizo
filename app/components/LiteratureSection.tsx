@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from "motion/react";
+import Image from 'next/image';
 
 const STEPS = [
     {
@@ -42,17 +43,16 @@ function StepCard({ step }: { step: typeof STEPS[0] }) {
             viewport={{ once: true }}
             className="group relative flex flex-col bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-black/5"
         >
-            {/* Kép szekció */}
             <div className="relative h-64 md:h-72 overflow-hidden">
-                <img
+                <Image
                     src={step.image}
                     alt={step.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
-
-            {/* Szöveg szekció */}
             <div className="p-8 md:p-10 flex flex-col flex-1">
                 <span className="text-xs font-poppins-bold uppercase tracking-[0.2em] text-black/40 mb-3">
                     {step.label}

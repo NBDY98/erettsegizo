@@ -1,4 +1,6 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useEffect } from 'react';
 import Device from './bits/device';
 import StaggeredText from './bits/staggered-text';
 import SwirlBlend from './bits/swirl-blend';
@@ -6,6 +8,8 @@ import { CheckCircle, Clock, Zap, Lightbulb, Moon } from 'lucide-react';
 import LiquidLines from './bits/liquid-lines';
 import RisingLines from './bits/rising-lines';
 import GlitterWarp from './bits/glitter-warp';
+import Image from 'next/image';
+import { getActiveSubjects } from '@/app/lib/pricing';
 
 const appleContentItems = [
     {
@@ -41,6 +45,12 @@ const appleContentItems = [
 ];
 
 export default function Hero() {
+    const [subjects, setSubjects] = useState<string[]>([]);
+
+    useEffect(() => {
+        setSubjects(getActiveSubjects());
+    }, []);
+
     return (
         <div className="w-full bg-white relative overflow-x-hidden">
             <section className="relative w-full bg-primary rounded-b-none lg:rounded-b-[6rem] pt-32 pb-56 lg:pb-80 xl:pb-96 overflow-hidden z-10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
@@ -98,20 +108,30 @@ export default function Hero() {
 
                 <div className="container-main relative z-10 flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-4 px-4 sm:px-6 lg:px-8">
                     <div className="w-full lg:w-[55%] flex flex-col items-center lg:items-start text-center lg:text-left z-10 lg:pt-8">
-                        <h1 className="text-white flex flex-col items-center lg:items-start">
-                            <span className="font-poppins-semib text-4xl md:text-5xl xl:text-[4rem] leading-tight mb-1">
-                                Az utolsó este az
-                            </span>
-                            <div className="flex flex-wrap items-baseline justify-center lg:justify-start gap-x-4 mt-2">
-                                <span className="relative inline-block font-poppins-extrab text-5xl md:text-6xl xl:text-[5.5rem] leading-[1.1]">
-                                    érettségi
-                                    <span className="absolute bottom-[0.1em] left-1 w-[calc(100%-0.5rem)] h-[0.25em] bg-[rgba(206,255,6,0.6)] -z-10 rounded-sm"></span>
+                        <div className="flex flex-col items-center lg:items-start mb-6 w-full">
+                            {subjects.length > 0 && (
+                                <div className="mb-4 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 inline-flex items-center gap-2">
+                                    <div className="w-2 h-2 rounded-full bg-green animate-pulse" />
+                                    <span className="text-white font-poppins-bold text-[10px] md:text-xs uppercase tracking-[0.2em]">
+                                        Aktuális tantárgy: {subjects.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" & ")}
+                                    </span>
+                                </div>
+                            )}
+                            <h1 className="text-white flex flex-col items-center lg:items-start">
+                                <span className="font-poppins-semib text-4xl md:text-5xl xl:text-[4rem] leading-tight mb-1">
+                                    Az utolsó este az
                                 </span>
-                                <span className="font-poppins-semib text-4xl md:text-5xl xl:text-[4.5rem] leading-[1.1]">
-                                    előtt
-                                </span>
-                            </div>
-                        </h1>
+                                <div className="flex flex-wrap items-baseline justify-center lg:justify-start gap-x-4 mt-2">
+                                    <span className="relative inline-block font-poppins-extrab text-5xl md:text-6xl xl:text-[5.5rem] leading-[1.1]">
+                                        érettségi
+                                        <span className="absolute bottom-[0.1em] left-1 w-[calc(100%-0.5rem)] h-[0.25em] bg-[rgba(206,255,6,0.6)] -z-10 rounded-sm"></span>
+                                    </span>
+                                    <span className="font-poppins-semib text-4xl md:text-5xl xl:text-[4.5rem] leading-[1.1]">
+                                        előtt
+                                    </span>
+                                </div>
+                            </h1>
+                        </div>
                         <StaggeredText
                             text="rendszerezve, strukturáltan, nyugodtan"
                             segmentBy="words"
@@ -137,9 +157,27 @@ export default function Hero() {
 
                         <div className="flex items-center justify-center lg:justify-start gap-4 mt-2 lg:mt-6 w-full">
                             <div className="flex -space-x-3">
-                                <img className="w-10 h-10 md:w-12 md:h-12 rounded-full border-[3px] border-primary object-cover" src="https://i.pravatar.cc/100?img=1" alt="Avatar" />
-                                <img className="w-10 h-10 md:w-12 md:h-12 rounded-full border-[3px] border-primary object-cover" src="https://i.pravatar.cc/100?img=2" alt="Avatar" />
-                                <img className="w-10 h-10 md:w-12 md:h-12 rounded-full border-[3px] border-primary object-cover" src="https://i.pravatar.cc/100?img=3" alt="Avatar" />
+                                <Image
+                                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border-[3px] border-primary object-cover"
+                                    src="https://i.pravatar.cc/100?img=1"
+                                    alt="Avatar"
+                                    width={48}
+                                    height={48}
+                                />
+                                <Image
+                                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border-[3px] border-primary object-cover"
+                                    src="https://i.pravatar.cc/100?img=2"
+                                    alt="Avatar"
+                                    width={48}
+                                    height={48}
+                                />
+                                <Image
+                                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border-[3px] border-primary object-cover"
+                                    src="https://i.pravatar.cc/100?img=3"
+                                    alt="Avatar"
+                                    width={48}
+                                    height={48}
+                                />
                             </div>
                             <div className="flex flex-col justify-center items-start text-left">
                                 <span className="text-white text-2xl md:text-3xl font-poppins-bold leading-none -mb-1">10.000+</span>

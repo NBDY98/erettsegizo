@@ -3,15 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { getCurrentPriceTier, getActiveSubjects } from "@/app/lib/pricing";
 
-// Counts down to the next Sunday midnight (00:00:00)
-function useNextSundayCountdown() {
+function useDeadlineCountdown() {
     const getTimeLeft = () => {
         const now = new Date();
-        const next = new Date(now);
-        const daysUntilSunday = (7 - now.getDay()) % 7 || 7;
-        next.setDate(now.getDate() + daysUntilSunday);
-        next.setHours(0, 0, 0, 0);
+        const tier = getCurrentPriceTier();
+        const next = tier.deadlineDate;
         const diff = Math.max(0, next.getTime() - now.getTime());
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -45,7 +43,7 @@ function CountdownBlock({ value, label }: { value: number; label: string }) {
 }
 
 function NavCountdown({ dark }: { dark?: boolean }) {
-    const { days, hours, minutes, seconds } = useNextSundayCountdown();
+    const { days, hours, minutes, seconds } = useDeadlineCountdown();
     const wrapperClasses = dark
         ? "border-black/10 bg-black/5 text-black"
         : "border-[#CEFF06]/30 bg-[#CEFF06]/5 text-[#CEFF06]";
@@ -65,8 +63,6 @@ function NavCountdown({ dark }: { dark?: boolean }) {
                         határidő
                     </span>
                 </div>
-
-                {/* Elválasztó vonal */}
                 <div className={`hidden md:block w-px h-7 ${dark ? "bg-black/20" : "bg-[#CEFF06]/30"}`} />
 
                 <div className="flex items-center gap-1.5 md:gap-2.5 lg:gap-3">
@@ -89,37 +85,19 @@ export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [navVisible, setNavVisible] = useState(false);
+    const [subjects, setSubjects] = useState<string[]>([]);
 
     useEffect(() => {
-        let lastY = window.scrollY;
+        setSubjects(getActiveSubjects());
+    }, []);
 
+    useEffect(() => {
         const handleScroll = () => {
             const currentY = window.scrollY;
-            const isMobile = window.innerWidth < 768;
-
             setScrolled(currentY > 850);
-
-            if (!isMobile) {
-                setNavVisible(true);
-                lastY = currentY;
-                return;
-            }
-
-            const isScrolledPastHero = currentY > 60;
-            const isScrollingUp = currentY < lastY;
-
-            if (!isScrolledPastHero) {
-                setNavVisible(false);
-            } else if (isScrollingUp) {
-                setNavVisible(true);
-            } else {
-                setNavVisible(false);
-            }
-
-            lastY = currentY;
         };
 
-        setNavVisible(window.innerWidth >= 768);
+        setNavVisible(true);
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
@@ -129,9 +107,6 @@ export default function Navbar() {
         return () => { document.body.style.overflow = ""; };
     }, [isMenuOpen]);
 
-    // --- FIX: Dynamic colors for scrolled vs. non-scrolled state ---
-    // When scrolled (glass bg over content), use dark text/icons.
-    // When not scrolled (over hero), use light text/icons.
     const logoSrc = scrolled ? "/svg/erettsegizo-b.svg" : "/svg/erettsegizo-w.svg";
     const linkColor = scrolled
         ? "text-gray-700 hover:text-black"
@@ -139,8 +114,6 @@ export default function Navbar() {
     const hamburgerColor = scrolled
         ? "text-gray-800 hover:text-black"
         : "text-nav-button-text hover:text-white";
-
-    // --- FIX: Custom smooth scroll for anchor links ---
     const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
         e.preventDefault();
         const element = document.getElementById(id.replace("#", ""));
@@ -165,7 +138,6 @@ export default function Navbar() {
                 ${isMenuOpen ? "bg-primary py-5 shadow-none" : scrolled ? "bg-white/80 backdrop-blur-md py-3 shadow-lg" : "bg-transparent py-5"}
                 ${navVisible || isMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}
             `}>
-                {/* Logo */}
                 <div className="flex-shrink-0 z-50">
                     <Link href="/" onClick={() => setIsMenuOpen(false)}>
                         <Image
@@ -178,12 +150,9 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                {/* CENTER: Countdown — all screens */}
                 <div className="flex flex-1 justify-center z-50">
                     <NavCountdown dark={scrolled && !isMenuOpen} />
                 </div>
-
-                {/* Desktop links */}
                 <div className="hidden md:flex items-center gap-8 lg:gap-14 flex-shrink-0">
                     <a
                         href="#tortenelem"
@@ -192,6 +161,15 @@ export default function Navbar() {
                     >
                         Történelem
                     </a>
+                    {subjects.includes("magyar") && (
+                        <a
+                            href="#magyar"
+                            onClick={(e) => scrollToSection(e, "magyar")}
+                            className={`${linkColor} transition-colors duration-200 cursor-pointer`}
+                        >
+                            Magyar
+                        </a>
+                    )}
                     <a
                         href="#gyik"
                         onClick={(e) => scrollToSection(e, "gyik")}
@@ -209,7 +187,6 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                {/* Mobile hamburger — color changes with scroll state */}
                 <div className="block md:hidden z-50 flex-shrink-0">
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -229,7 +206,6 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* Mobile fullscreen menu */}
             <div className={`fixed inset-0 bg-primary z-40 flex flex-col items-center justify-center pb-20 gap-8 transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}`}>
                 <a
                     href="#tortenelem"
@@ -238,6 +214,15 @@ export default function Navbar() {
                 >
                     Történelem
                 </a>
+                {subjects.includes("magyar") && (
+                    <a
+                        href="#magyar"
+                        onClick={(e) => scrollToSection(e, "magyar")}
+                        className="text-2xl text-nav-button-text hover:text-white transition-colors duration-200 cursor-pointer"
+                    >
+                        Magyar
+                    </a>
+                )}
                 <a
                     href="#gyik"
                     onClick={(e) => scrollToSection(e, "gyik")}
