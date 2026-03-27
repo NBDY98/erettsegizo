@@ -125,50 +125,59 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
     return () => resizeObserver.disconnect()
   }, [containerRef, fromRef, toRef, curvature, startXOffset, startYOffset, endXOffset, endYOffset])
 
+  const ScrollParticleItem = ({ p, scrollProgress, bezier, gradientStopColor }: any) => {
+    const cx = useTransform(scrollProgress, (scrollP: any) => {
+      const t = Math.max(0, Math.min(1, scrollP - p.trailOffset));
+      if (t <= 0.005) return -1000;
+      return bezierPoint(t, bezier).x + p.offsetX;
+    });
+    const cy = useTransform(scrollProgress, (scrollP: any) => {
+      const t = Math.max(0, Math.min(1, scrollP - p.trailOffset));
+      if (t <= 0.005) return -1000;
+      return bezierPoint(t, bezier).y + p.offsetY;
+    });
+    const r = useTransform(scrollProgress, (scrollP: any) => {
+      const t = Math.max(0, Math.min(1, scrollP - p.trailOffset));
+      if (t <= 0.005) return 0;
+      const headT = Math.min(1, scrollP);
+      const distFromHead = Math.abs(headT - t);
+      const fade = Math.max(0, 1 - distFromHead / 0.15);
+      return p.size * (0.5 + fade * 0.5);
+    });
+    const opacity = useTransform(scrollProgress, (scrollP: any) => {
+       const t = Math.max(0, Math.min(1, scrollP - p.trailOffset));
+       if (t <= 0.005 || scrollP <= 0.01) return 0;
+       const headT = Math.min(1, scrollP);
+       const distFromHead = Math.abs(headT - t);
+       const fade = Math.max(0, 1 - distFromHead / 0.15);
+       return p.opacity * fade;
+    });
+
+    return (
+      <motion.circle
+        cx={cx}
+        cy={cy}
+        r={r}
+        opacity={opacity}
+        fill={gradientStopColor}
+      />
+    );
+  };
+
   const ScrollParticleLayer = () => {
     if (!isScrollDriven || !showParticles || !scrollProgress) return null;
 
     return (
       <>
-        {particles.map((p) => {
-          const cx = useTransform(scrollProgress, (scrollP) => {
-            const t = Math.max(0, Math.min(1, scrollP - p.trailOffset));
-            if (t <= 0.005) return -1000;
-            return bezierPoint(t, bezier).x + p.offsetX;
-          });
-          const cy = useTransform(scrollProgress, (scrollP) => {
-            const t = Math.max(0, Math.min(1, scrollP - p.trailOffset));
-            if (t <= 0.005) return -1000;
-            return bezierPoint(t, bezier).y + p.offsetY;
-          });
-          const r = useTransform(scrollProgress, (scrollP) => {
-            const t = Math.max(0, Math.min(1, scrollP - p.trailOffset));
-            if (t <= 0.005) return 0;
-            const headT = Math.min(1, scrollP);
-            const distFromHead = Math.abs(headT - t);
-            const fade = Math.max(0, 1 - distFromHead / 0.15);
-            return p.size * (0.5 + fade * 0.5);
-          });
-          const opacity = useTransform(scrollProgress, (scrollP) => {
-             const t = Math.max(0, Math.min(1, scrollP - p.trailOffset));
-             if (t <= 0.005 || scrollP <= 0.01) return 0;
-             const headT = Math.min(1, scrollP);
-             const distFromHead = Math.abs(headT - t);
-             const fade = Math.max(0, 1 - distFromHead / 0.15);
-             return p.opacity * fade;
-          });
-
-          return (
-            <motion.circle
-              key={p.id}
-              cx={cx}
-              cy={cy}
-              r={r}
-              opacity={opacity}
-              fill={gradientStopColor}
-            />
-          );
-        })}
+        {particles.map((p) => (
+          <ScrollParticleItem
+            key={p.id}
+            p={p}
+            scrollProgress={scrollProgress}
+            bezier={bezier}
+            gradientStopColor={gradientStopColor}
+          />
+        ))}
       </>
     );
   };

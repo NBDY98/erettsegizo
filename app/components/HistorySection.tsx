@@ -92,6 +92,29 @@ const TOPICS: Topic[] = [
     },
 ];
 
+function BrainBurstScrollParticle({ p, burstProgress, color, scale, finalOpacity }: any) {
+    const xTransform = useTransform(burstProgress, (bp: any) => p.driftX * bp);
+    const yTransform = useTransform(burstProgress, (bp: any) => p.driftY * bp);
+
+    return (
+        <motion.div
+            className="absolute rounded-full"
+            style={{
+                width: p.size,
+                height: p.size,
+                left: `calc(50% - ${p.size / 2}px)`,
+                top: `calc(50% - ${p.size / 2}px)`,
+                backgroundColor: color,
+                boxShadow: `0 0 ${p.size * 3}px ${color}, 0 0 ${p.size * 6}px ${color}40`,
+                opacity: finalOpacity,
+                x: xTransform,
+                y: yTransform,
+                scale: scale,
+            }}
+        />
+    );
+}
+
 function BrainBurstScroll({
     color,
     progress,
@@ -119,9 +142,7 @@ function BrainBurstScroll({
         });
     }, [count]);
 
-    if (!mounted) return null;
-
-    // Instead of using React state and rerendering every frame, we map directly with useTransform
+    // Move useTransform ABOVE early return to fix "Rules of Hooks" violation
     const burstProgress = useTransform(progress, (p) => Math.max(0, Math.min(1, (p - threshold) / 0.08)));
     const scale = useTransform(burstProgress, (bp) => 0.3 + bp * 0.7);
     const fadeOut = useTransform(burstProgress, (bp) => (bp > 0.5 ? 1 - (bp - 0.5) / 0.5 : 1));
@@ -130,31 +151,20 @@ function BrainBurstScroll({
         ([bp, fo]: any) => (bp <= 0 ? 0 : fo * 0.9)
     );
 
+    if (!mounted) return null;
+
     return (
         <div className="pointer-events-none absolute inset-0 overflow-visible z-[5]">
-            {particles.map((p) => {
-                const xTransform = useTransform(burstProgress, (bp) => p.driftX * bp);
-                const yTransform = useTransform(burstProgress, (bp) => p.driftY * bp);
-
-                return (
-                    <motion.div
-                        key={p.id}
-                        className="absolute rounded-full"
-                        style={{
-                            width: p.size,
-                            height: p.size,
-                            left: `calc(50% - ${p.size / 2}px)`,
-                            top: `calc(50% - ${p.size / 2}px)`,
-                            backgroundColor: color,
-                            boxShadow: `0 0 ${p.size * 3}px ${color}, 0 0 ${p.size * 6}px ${color}40`,
-                            opacity: finalOpacity,
-                            x: xTransform,
-                            y: yTransform,
-                            scale: scale,
-                        }}
-                    />
-                );
-            })}
+            {particles.map((p) => (
+                <BrainBurstScrollParticle 
+                    key={p.id} 
+                    p={p} 
+                    burstProgress={burstProgress} 
+                    color={color} 
+                    scale={scale} 
+                    finalOpacity={finalOpacity} 
+                />
+            ))}
         </div>
     );
 }
