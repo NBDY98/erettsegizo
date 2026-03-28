@@ -1,0 +1,187 @@
+﻿
+> Netbazis@0.1.0 lint
+> next lint
+
+node.exe : `next lint` is 
+deprecated and will be 
+removed in Next.js 16.
+At line:1 char:1
++ & 
+"C:\nvm4w\nodejs/node.exe" "C:
+\nvm4w\nodejs/node_modules/npm
+/bin/np ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo          : 
+    NotSpecified: (`next lin  
+  t` is ... in Next.js 16.:   
+ String) [], RemoteExcepti    
+on
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+For new projects, use 
+create-next-app to choose 
+your preferred linter.
+For existing projects, 
+migrate to the ESLint CLI:
+npx @next/codemod@canary 
+next-lint-to-eslint-cli .
+
+
+./app/components/bits/about-1.
+tsx
+5:10  Error: 'Github' is 
+defined but never used.  @type
+script-eslint/no-unused-vars
+5:18  Error: 'Mail' is 
+defined but never used.  @type
+script-eslint/no-unused-vars
+51:5  Error: 
+'displayProgressIndicators' 
+is assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+64:11  Error: 
+'handleIndexChange' is 
+assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+90:10  Error: 
+'TeamMemberList' is defined 
+but never used.  @typescript-e
+slint/no-unused-vars
+238:11  Error: 'iconSize' is 
+assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+244:11  Error: 'iconClasses' 
+is assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+262:10  Error: 
+'ProgressIndicators' is 
+defined but never used.  @type
+script-eslint/no-unused-vars
+
+./app/components/bits/animated
+-beam.tsx
+60:3  Error: 
+'gradientStartColor' is 
+assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+62:3  Error: 'repeat' is 
+assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+63:3  Error: 'repeatDelay' is 
+assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+82:9  Error: 
+'gradientCoordinates' is 
+assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+128:81  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/no-e
+xplicit-any
+129:55  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/no-e
+xplicit-any
+134:55  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/no-e
+xplicit-any
+139:54  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/no-e
+xplicit-any
+147:60  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/no-e
+xplicit-any
+
+./app/components/bits/carousel
+.tsx
+19:41  Error: 
+'handleSlideClick' is defined 
+but never used.  @typescript-e
+slint/no-unused-vars
+40:9  Error: 
+'handleMouseMove' is assigned 
+a value but never used.  @type
+script-eslint/no-unused-vars
+48:9  Error: 
+'handleMouseLeave' is 
+assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+
+./app/components/bits/device.t
+sx
+197:11  Warning: Using 
+`<img>` could result in 
+slower LCP and higher 
+bandwidth. Consider using 
+`<Image />` from `next/image` 
+or a custom image loader to 
+automatically optimize 
+images. This may incur 
+additional usage or cost from 
+your provider. See: https://ne
+xtjs.org/docs/messages/no-img-
+element  
+@next/next/no-img-element
+212:11  Warning: Using 
+`<img>` could result in 
+slower LCP and higher 
+bandwidth. Consider using 
+`<Image />` from `next/image` 
+or a custom image loader to 
+automatically optimize 
+images. This may incur 
+additional usage or cost from 
+your provider. See: https://ne
+xtjs.org/docs/messages/no-img-
+element  
+@next/next/no-img-element
+
+./app/components/GuaranteeSect
+ion.tsx
+10:38  Error: Unexpected any. 
+Specify a different type.  @ty
+pescript-eslint/no-explicit-an
+y
+
+./app/components/PricingSectio
+n.tsx
+9:38  Error: Unexpected any. 
+Specify a different type.  @ty
+pescript-eslint/no-explicit-an
+y
+
+./app/layout.tsx
+1:15  Error: 'Metadata' is 
+defined but never used.  @type
+script-eslint/no-unused-vars
+
+./app/not-found.tsx
+126:12  Error: 'shreds' is 
+assigned a value but never 
+used.  @typescript-eslint/no-u
+nused-vars
+126:42  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/no-e
+xplicit-any
+
+info  - Need to disable some 
+ESLint rules? Learn more 
+here: https://nextjs.org/docs/
+app/api-reference/config/eslin
+t#disabling-rules

@@ -24,8 +24,6 @@ export default function TestPricingControls() {
     };
 
     if (process.env.NODE_ENV === "production" && !isOpen) {
-        // You might want to hide it in production unless a secret is used,
-        // but for now let's keep it visible since the user asked for it.
     }
 
     return (
@@ -35,7 +33,7 @@ export default function TestPricingControls() {
                     onClick={() => setIsOpen(true)}
                     className="bg-black text-white px-4 py-2 rounded-full shadow-2xl font-poppins-bold text-xs"
                 >
-                    DEBUG: Szimuláció
+                    DEBUG
                 </button>
             ) : (
                 <div className="bg-white border border-gray-200 p-4 rounded-3xl shadow-2xl w-72 flex flex-col gap-3">

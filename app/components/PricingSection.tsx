@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Check, Clock, Minus, X } from 'lucide-react';
 import { NavCountdown } from './Navbar';
@@ -64,7 +64,6 @@ export default function PricingSection() {
                         </p>
                     </div>
 
-                    {/* Countdown urgency banner */}
                     <div className="w-full max-w-2xl mb-6 flex flex-col items-center gap-2">
                         <p className="flex items-center gap-1.5 text-xs font-poppins-bold uppercase tracking-[0.2em] text-red-500/80 whitespace-nowrap">
                             <Clock className="w-4 h-4 text-red-500/80 shrink-0" strokeWidth={3.5} /> A {tier.label.toLowerCase()} ({formatPrice(tier.isCombo ? tier.comboPrice : tier.price)}) {tier.deadlineLabel}-ig él

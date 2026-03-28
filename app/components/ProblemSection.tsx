@@ -85,10 +85,8 @@ function ProblemCard({ card, index }: { card: typeof CARDS[0]; index: number }) 
             }}
             className="group relative p-8 sm:p-10 flex flex-col items-center text-center bg-white border border-gray-100 overflow-hidden transition-all duration-300"
         >
-            {/* Gradient Hover Background */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-[#AAFFA9] to-[#11FFBD] z-0" />
 
-            {/* Inner Content */}
             <div className="relative z-10 flex flex-col items-center">
                 <div className="mb-4 p-4 rounded-full bg-gray-50 group-hover:bg-white/50 transition-colors duration-300">
                     <Icon
@@ -114,7 +112,6 @@ export default function ProblemSection() {
                 </h2>
             </div>
 
-            {/* Static Grid - No more sticky scroll */}
             <div className="container-main px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-200">
                     {CARDS.map((card, i) => (
@@ -123,7 +120,6 @@ export default function ProblemSection() {
                 </div>
             </div>
 
-            {/* Bottom CTA blocks */}
             <div className="container-main flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-20">
                 <div className="w-full max-w-4xl relative flex flex-col items-center px-2">
                     <div className="w-full bg-[#fde5e5] rounded-[2rem] p-6 sm:p-8 md:p-12 pb-24 md:pb-28 flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6 text-center md:text-left z-0">

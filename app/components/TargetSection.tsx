@@ -50,7 +50,7 @@ export default function TargetSection() {
                                     A végén nyitunk egy kérdések blokkot, és addig nem lépünk ki, <br className="hidden md:block" />
                                     <span className="relative inline-block mt-2 lg:mt-4 whitespace-normal sm:whitespace-nowrap">
                                         <span className="relative z-10">ameddig nem válaszoltunk meg mindent!</span>
-                                        <span className="absolute bottom-[0.3em] left-0 w-full h-[0.4em] bg-green opacity-60 z-0 rounded-sm"></span>
+                                        {/* <span className="absolute bottom-[0.3em] left-0 w-full h-[0.4em] bg-green opacity-60 z-0 rounded-sm"></span> */}
                                     </span>
                                 </h3>
                             </div>

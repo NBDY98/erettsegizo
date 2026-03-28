@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowRight, Plus, Minus } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { getCurrentPriceTier, formatPrice } from "@/app/lib/pricing";
 
 export default function FAQ2() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [tier, setTier] = useState<any>(null);
 
     useEffect(() => {

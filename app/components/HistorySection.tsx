@@ -10,8 +10,6 @@ import {
     Waypoints,
     BookMarked,
     Brain,
-    Check,
-    Loader2,
     type LucideIcon,
 } from "lucide-react";
 import { AnimatedBeam } from "./bits/animated-beam";
@@ -92,9 +90,9 @@ const TOPICS: Topic[] = [
     },
 ];
 
-function BrainBurstScrollParticle({ p, burstProgress, color, scale, finalOpacity }: any) {
-    const xTransform = useTransform(burstProgress, (bp: any) => p.driftX * bp);
-    const yTransform = useTransform(burstProgress, (bp: any) => p.driftY * bp);
+function BrainBurstScrollParticle({ p, burstProgress, color, scale, finalOpacity }: { p: { id: number, size: number, driftX: number, driftY: number }, burstProgress: import("motion/react").MotionValue<number>, color: string, scale: import("motion/react").MotionValue<number>, finalOpacity: import("motion/react").MotionValue<number> }) {
+    const xTransform = useTransform(burstProgress, (bp: number) => p.driftX * bp);
+    const yTransform = useTransform(burstProgress, (bp: number) => p.driftY * bp);
 
     return (
         <motion.div
@@ -142,13 +140,12 @@ function BrainBurstScroll({
         });
     }, [count]);
 
-    // Move useTransform ABOVE early return to fix "Rules of Hooks" violation
     const burstProgress = useTransform(progress, (p) => Math.max(0, Math.min(1, (p - threshold) / 0.08)));
     const scale = useTransform(burstProgress, (bp) => 0.3 + bp * 0.7);
     const fadeOut = useTransform(burstProgress, (bp) => (bp > 0.5 ? 1 - (bp - 0.5) / 0.5 : 1));
     const finalOpacity = useTransform(
         [burstProgress, fadeOut],
-        ([bp, fo]: any) => (bp <= 0 ? 0 : fo * 0.9)
+        ([bp, fo]: number[]) => (bp <= 0 ? 0 : fo * 0.9)
     );
 
     if (!mounted) return null;
@@ -156,13 +153,13 @@ function BrainBurstScroll({
     return (
         <div className="pointer-events-none absolute inset-0 overflow-visible z-[5]">
             {particles.map((p) => (
-                <BrainBurstScrollParticle 
-                    key={p.id} 
-                    p={p} 
-                    burstProgress={burstProgress} 
-                    color={color} 
-                    scale={scale} 
-                    finalOpacity={finalOpacity} 
+                <BrainBurstScrollParticle
+                    key={p.id}
+                    p={p}
+                    burstProgress={burstProgress}
+                    color={color}
+                    scale={scale}
+                    finalOpacity={finalOpacity}
                 />
             ))}
         </div>
@@ -330,9 +327,6 @@ export default function HistorySection() {
     const beam2P = useTransform(scrollYProgress, [0.15, 0.42], [0, 1], { clamp: true });
     const beam3P = useTransform(scrollYProgress, [0.27, 0.54], [0, 1], { clamp: true });
     const beam4P = useTransform(scrollYProgress, [0.38, 0.66], [0, 1], { clamp: true });
-    const beam5P = useTransform(scrollYProgress, [0.48, 0.78], [0, 1], { clamp: true });
-
-    // Removed scrollP state to prevent React re-renders on every scroll frame
 
     const beamDuration = 7;
 

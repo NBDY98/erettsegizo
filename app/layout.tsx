@@ -4,12 +4,16 @@ import { Toaster } from "sonner";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import TestPricingControls from "./components/TestPricingControls";
-import { Geist } from "next/font/google";
+
+
+
+
 import { cn } from "@/lib/utils";
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
-
-
+export const metadata: Metadata = {
+	title: "Érettségiző",
+	description: "Az utolsó este az érettségi előtt",
+};
 
 export default async function RootLayout({
 	children,

@@ -273,6 +273,10 @@ html {
     animation: loading-bar 1.5s ease-in-out infinite;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .animate-loading-bar {
         animation: none;

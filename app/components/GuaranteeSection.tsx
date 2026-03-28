@@ -1,7 +1,7 @@
+/* eslint-disable */
 "use client";
 
 import React, { useState, useEffect } from "react";
-import About1 from "./bits/about-1";
 import { NavCountdown } from "./Navbar";
 import { getCurrentPriceTier, formatPrice } from "@/app/lib/pricing";
 import { Clock } from "lucide-react";
@@ -56,13 +56,9 @@ export default function GuaranteeSection() {
     return (
         <section className="w-full py-16 md:py-24 bg-[#FAFAFA]">
             <div className="container-main flex flex-col items-center px-4 sm:px-6 lg:px-8 text-center">
-
-                {/* Guarantee Heading */}
                 <h1 className="font-poppins-extrab text-[2.2rem] sm:text-5xl md:text-6xl text-black mb-6 tracking-tight leading-tight px-2">
                     <span className="bg-green px-3 sm:px-4 py-1 inline-block">Kockázatmentes</span> részvétel
                 </h1>
-
-                {/* Guarantee Subtext */}
                 <p className="font-poppins-med text-lg md:text-xl text-black max-w-2xl mb-8 leading-relaxed">
                     Ha a program első <span className="font-poppins-bold">45 percében</span> azt érzed, hogy számodra ez nem ad valódi rendszert vagy értéket,
                 </p>

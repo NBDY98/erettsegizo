@@ -9,8 +9,6 @@ export default function Footer() {
         <footer className="w-full bg-[#050505] text-white py-12 sm:py-16 md:py-20 px-4 md:px-8 relative overflow-hidden snap-start">
 
             <div className="max-w-7xl mx-auto flex flex-col items-center justify-center relative z-10">
-
-                {/* Top Section: Logo & Links */}
                 <div className="flex flex-col md:flex-row items-center justify-between w-full gap-8 border-b border-white/10 pb-10 md:pb-14 mb-10 md:mb-14">
                     <div className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                         <Link href="/">
@@ -33,7 +31,6 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Bottom Section: Netbázis CTA */}
                 <div className="flex items-center justify-center text-center">
                     <p className="text-white/60 font-poppins-med tracking-wide text-[15px] uppercase">
                         Az oldalt készítette: {" "}

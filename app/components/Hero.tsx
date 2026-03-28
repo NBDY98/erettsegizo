@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Device from './bits/device';
 import StaggeredText from './bits/staggered-text';
-import SwirlBlend from './bits/swirl-blend';
 import { CheckCircle, Clock, Zap, Lightbulb, Moon } from 'lucide-react';
-import LiquidLines from './bits/liquid-lines';
-import RisingLines from './bits/rising-lines';
 import GlitterWarp from './bits/glitter-warp';
 import Image from 'next/image';
 import { getActiveSubjects } from '@/app/lib/pricing';
+import TikTokFeed from './TikTokFeed';
+import MessengerChat from './MessengerChat';
 
 const appleContentItems = [
     {
@@ -55,32 +54,7 @@ export default function Hero() {
         <div className="w-full bg-white relative overflow-x-hidden">
             <section className="relative w-full bg-primary rounded-b-none lg:rounded-b-[6rem] pt-32 pb-56 lg:pb-80 xl:pb-96 overflow-hidden z-10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
                 <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
-                    {/* <LiquidLines
-                        speed={0.3}
-                        lineColor="#ffffff"
-                        brightness={2}
-                        darkBackground="#000000"
-                        lightBackground="#000000"
-                        opacity={1.0}
-                        scale={0.3}
-                        waveAmplitude={0.6}
-                        waveFrequency={49}
-                        contrast={1.1}
-                        depthStep={0.05}
-                        iterations={3}
-                        lineThickness={0.012}
-                    /> */}
-                    {/* <RisingLines
-                        color="#CEFF06"
-                        horizonColor="#CEFF06"
-                        haloColor="#CEFF06"
-                        riseSpeed={0.08}
-                        flowSpeed={0.1}
-                        riseIntensity={0.4}
-                        flowIntensity={0.7}
-                        haloIntensity={6.0}
-                        brightness={1.5}
-                    /> */}
+
                     <GlitterWarp
                         speed={1.5}
                         color="#CEFF06"
@@ -88,22 +62,7 @@ export default function Hero() {
                         brightness={1.5}
                         starSize={0.15}
                     />
-                    {/* <SwirlBlend
-                        paletteBaseR={0.0}
-                        paletteBaseG={0.0}
-                        paletteBaseB={0.0}
-                        paletteAmpR={0.808}
-                        paletteAmpG={1.0}
-                        paletteAmpB={0.024}
-                        palettePhaseR={0.1}
-                        palettePhaseG={0.0}
-                        palettePhaseB={0.5}
-                        cosFrequency={4}
-                        cosAmplitude={0.3}
-                        sinAmplitude={0.4}
-                        modulationRate={0.2}
-                        modulationDepth={3}
-                    /> */}
+
                 </div>
 
                 <div className="container-main relative z-10 flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-4 px-4 sm:px-6 lg:px-8">
@@ -191,10 +150,10 @@ export default function Hero() {
 
                 </div>
             </section>
-            <div className="relative z-20 flex justify-center w-full mt-[-130px] sm:mt-[-170px] md:mt-[-190px] lg:mt-[-350px] xl:mt-[-400px] pointer-events-none px-4">                {/* Layout wrapper to reserve the actual visual height and crop out the unscaled empty space */}
-                <div className="h-[560px] sm:h-[610px] md:h-[640px] lg:h-[700px] xl:h-[720px] flex justify-center pointer-events-auto">
-                    <div className="origin-top scale-[0.48] sm:scale-[0.52] md:scale-[0.55] lg:scale-[0.6] xl:scale-[0.62] rounded-[6rem] relative">
-                        <Device
+            <div className="relative z-20 flex justify-center w-full mt-[-180px] sm:mt-[-190px] md:mt-[-190px] lg:mt-[-350px] xl:mt-[-400px] pointer-events-none px-4">
+                <div className="h-[600px] sm:h-[620px] md:h-[640px] lg:h-[700px] xl:h-[720px] flex justify-center pointer-events-auto">
+                    <div className="origin-top scale-[0.56] sm:scale-[0.56] md:scale-[0.55] lg:scale-[0.6] xl:scale-[0.62] rounded-[6rem] relative">
+                        {/* <Device
                             isScrollable={true}
                             scale={1}
                             enableParallax={false}
@@ -217,9 +176,16 @@ export default function Hero() {
                                     </div>
                                 ))}
                             </div>
+                        </Device> */}
+                        <Device
+                            isScrollable={false}
+                            scale={1}
+                            enableParallax={false}
+                            enableRotate={false}
+                        >
+                            {/* <TikTokFeed /> */}
+                            <MessengerChat />
                         </Device>
-
-                        {/* Bouncing Arrow Removed */}
                     </div>
                 </div>
             </div>
