@@ -150,9 +150,9 @@ export default function Hero() {
 
                 </div>
             </section>
-            <div className="relative z-20 flex justify-center w-full mt-[-180px] sm:mt-[-190px] md:mt-[-190px] lg:mt-[-350px] xl:mt-[-400px] pointer-events-none px-4">
-                <div className="h-[600px] sm:h-[620px] md:h-[640px] lg:h-[700px] xl:h-[720px] flex justify-center pointer-events-auto">
-                    <div className="origin-top scale-[0.56] sm:scale-[0.56] md:scale-[0.55] lg:scale-[0.6] xl:scale-[0.62] rounded-[6rem] relative">
+            <div className="relative z-20 flex justify-center w-full mt-[-130px] sm:mt-[-170px] md:mt-[-190px] lg:mt-[-350px] xl:mt-[-400px] pointer-events-none px-4">
+                <div className="h-[560px] sm:h-[610px] md:h-[640px] lg:h-[700px] xl:h-[720px] flex justify-center pointer-events-auto">
+                    <div className="origin-top scale-[0.48] sm:scale-[0.52] md:scale-[0.55] lg:scale-[0.6] xl:scale-[0.62] rounded-[6rem] relative">
                         {/* <Device
                             isScrollable={true}
                             scale={1}
