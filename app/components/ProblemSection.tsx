@@ -84,11 +84,6 @@ function ProblemCard({ card, index, canHover }: { card: typeof CARDS[0]; index: 
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            whileHover={canHover ? { scale: 1.02, y: -5 } : undefined}
             className="group relative p-8 sm:p-10 flex flex-col items-center text-center bg-white border border-gray-100 overflow-hidden transition-all duration-300"
         >
             <div className={`absolute inset-0 transition-opacity duration-500 bg-gradient-to-br from-[#AAFFA9] to-[#11FFBD] z-0 ${canHover ? "opacity-0 group-hover:opacity-100" : "opacity-0"}`} />
