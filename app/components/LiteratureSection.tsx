@@ -28,11 +28,11 @@ const STEPS = [
     },
     {
         number: "04",
-        title: "Összehasonlító elemzés",
-        desc: "Megmutatjuk, hogyan találd meg a művek közötti tartalmi és formai kapcsolódásokat, és hogyan érvelj világosan és logikusan.",
+        title: "Irodalmi témák és motívumok",
+        desc: "Áttekintjük a leggyakoribb érettségi témákat és motívumokat, hogy gyorsan felismerd őket, és magabiztosan tudd alkalmazni az elemzéseidben.",
         image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022",
-        label: "Összevetés",
-    },
+        label: "Motívumok",
+    }
 ];
 
 function StepCard({ step }: { step: typeof STEPS[0] }) {
