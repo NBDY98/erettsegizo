@@ -18,6 +18,8 @@ import {
     Sparkles,
     Lock,
     X,
+    BookOpen,
+    History,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -380,8 +382,18 @@ export default function OrderForm() {
         even_aluli_18: false,
     });
 
+    const [selectedProduct, setSelectedProduct] = useState<"töri" | "magyar" | "kombo">("töri");
+
     useEffect(() => {
-        setTier(getCurrentPriceTier());
+        const currentTier = getCurrentPriceTier();
+        setTier(currentTier);
+        if (currentTier.isCombo) {
+            setSelectedProduct("kombo");
+        } else if (currentTier.subjects.includes("magyar")) {
+            setSelectedProduct("magyar");
+        } else {
+            setSelectedProduct("töri");
+        }
     }, []);
 
     const handleChange = (
@@ -452,7 +464,12 @@ export default function OrderForm() {
 
     if (!tier) return null;
 
-    const basePrice = tier.isCombo ? tier.comboPrice : tier.price;
+    const getPrice = () => {
+        if (selectedProduct === "kombo") return tier.comboPrice || tier.price;
+        return tier.price;
+    };
+
+    const basePrice = getPrice();
     const finalPrice = Math.max(0, basePrice - discount);
 
     return (
@@ -503,9 +520,61 @@ export default function OrderForm() {
                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
                     >
                         <form onSubmit={handleSubmit} className="space-y-12">
+                            {/* ═══ Section 0: Product Selection ═══ */}
+                            {tier.subjects.length > 1 || tier.isCombo ? (
+                                <div>
+                                    <SectionHeader icon={BookOpen} title="Válassz tantárgyat" step={1} />
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        {[
+                                            { id: "töri", label: "Történelem", icon: History },
+                                            { id: "magyar", label: "Magyar", icon: BookOpen },
+                                            { id: "kombo", label: "Kombo (Mindkettő)", icon: Sparkles, isCombo: true },
+                                        ].map((prod) => (
+                                            <motion.button
+                                                key={prod.id}
+                                                type="button"
+                                                onClick={() => setSelectedProduct(prod.id as any)}
+                                                whileTap={{ scale: 0.97 }}
+                                                className={`
+                                                    relative flex flex-col items-center justify-center p-6 rounded-2xl border-[1.5px] transition-all duration-300 text-center
+                                                    ${selectedProduct === prod.id
+                                                        ? "border-green bg-green/[0.04]"
+                                                        : "border-black/[0.06] bg-black/[0.01] hover:border-black/[0.12] hover:bg-black/[0.02]"
+                                                    }
+                                                `}
+                                            >
+                                                <div className={`
+                                                    w-12 h-12 rounded-xl flex items-center justify-center mb-3 transition-colors duration-300
+                                                    ${selectedProduct === prod.id ? "bg-green text-black" : "bg-black/[0.04] text-black/30"}
+                                                `}>
+                                                    <prod.icon size={22} strokeWidth={2.5} />
+                                                </div>
+                                                <span className="font-poppins-bold text-black text-[15px]">{prod.label}</span>
+                                                {prod.isCombo && (
+                                                    <span className="absolute -top-2 -right-2 bg-black text-white text-[9px] font-poppins-bold px-2 py-1 rounded-lg uppercase tracking-wider">
+                                                        Legjobb érték
+                                                    </span>
+                                                )}
+                                                {selectedProduct === prod.id && (
+                                                    <motion.div
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        className="absolute top-3 right-3"
+                                                    >
+                                                        <div className="w-5 h-5 rounded-full bg-green flex items-center justify-center">
+                                                            <Check size={11} className="text-black" strokeWidth={4} />
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+                                            </motion.button>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : null}
+
                             {/* ═══ Section 1: Personal ═══ */}
                             <div>
-                                <SectionHeader icon={User} title="Résztvevő adatai" step={1} />
+                                <SectionHeader icon={User} title="Résztvevő adatai" step={tier.subjects.length > 1 ? 2 : 1} />
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <FormInput
                                         required
@@ -550,7 +619,7 @@ export default function OrderForm() {
 
                             {/* ═══ Section 2: Billing ═══ */}
                             <div>
-                                <SectionHeader icon={MapPin} title="Számlázási cím" step={2} />
+                                <SectionHeader icon={MapPin} title="Számlázási cím" step={tier.subjects.length > 1 ? 3 : 2} />
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         {/* Country select */}
@@ -643,6 +712,16 @@ export default function OrderForm() {
                                 </div>
                             </div>
 
+                            {/* VAT Statement */}
+                            <div className="bg-black/[0.02] border border-black/[0.05] rounded-2xl p-5 mt-4">
+                                <p className="text-[13px] text-black/50 font-poppins-med leading-relaxed flex items-start gap-3">
+                                    <Info size={16} className="shrink-0 mt-0.5 text-black/30" />
+                                    <span>
+                                        A vásárlásról a résztvevő nevére alanyi adómentes számlát állítunk ki. ÁFA tartalma 0%.
+                                    </span>
+                                </p>
+                            </div>
+
                             {/* divider */}
                             <div className="flex items-center gap-4">
                                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-black/[0.06] to-transparent" />
@@ -650,7 +729,7 @@ export default function OrderForm() {
 
                             {/* ═══ Section 3: Payment & Coupon ═══ */}
                             <div>
-                                <SectionHeader icon={CreditCard} title="Fizetés" step={3} />
+                                <SectionHeader icon={CreditCard} title="Fizetés" step={tier.subjects.length > 1 ? 4 : 3} />
                                 <div className="space-y-5">
                                     {/* Payment method cards */}
                                     <div className="grid grid-cols-2 gap-3">
@@ -885,6 +964,10 @@ export default function OrderForm() {
                                             </AnimatedCheckbox>
                                         </div>
 
+                                        <p className="text-[11px] text-white/30 font-poppins-med text-center italic">
+                                            A "Megrendelem" gombra kattintva fizetési kötelezettséggel járó megrendelést adsz le.
+                                        </p>
+
                                         {/* Modernizált Submit Gomb */}
                                         <motion.button
                                             type="submit"
@@ -898,7 +981,6 @@ export default function OrderForm() {
                                                 transition-all duration-300
                                                 disabled:opacity-40 disabled:pointer-events-none
                                                 group overflow-hidden
-                                                shadow-[0_0_0_rgba(206,255,6,0)] hover:shadow-[0_8px_30px_rgba(206,255,6,0.3)]
                                             "
                                         >
                                             {/* Shimmer / Csillogás effekt a gombon belül */}
@@ -909,7 +991,7 @@ export default function OrderForm() {
                                                     <Loader2 size={24} className="animate-spin text-black" />
                                                 ) : (
                                                     <>
-                                                        Irány a kifizetés
+                                                        Megrendelem
                                                         <div className="w-8 h-8 bg-black/10 rounded-full flex items-center justify-center group-hover:bg-black group-hover:translate-x-1 transition-all duration-300">
                                                             <ArrowRight
                                                                 size={15}
