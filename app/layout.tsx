@@ -4,8 +4,7 @@ import { Toaster } from "sonner";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import TestPricingControls from "./components/TestPricingControls";
-
-
+import TrackingScripts from "./components/TrackingScripts";
 
 
 import { cn } from "@/lib/utils";
@@ -29,6 +28,7 @@ export default async function RootLayout({
 			</head>
 			<body className="font-rem antialiased overflow-x-hidden">
 				<Toaster position="top-center" richColors />
+				<TrackingScripts />
 				<Navbar />
 				<main id="main-content" role="main">
 					{children}

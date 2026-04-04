@@ -24,6 +24,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { getCurrentPriceTier, formatPrice } from "@/app/lib/pricing";
+import { useTracking } from "@/hooks/useTracking";
 
 function AnimatedCheckbox({
     checked,
@@ -356,6 +357,7 @@ function CouponSection({
 
 /* ─── main form ─── */
 export default function OrderForm() {
+    const { trackLead } = useTracking();
     const [tier, setTier] = useState<any>(null);
     const [paymentMethod, setPaymentMethod] = useState<"barion" | "transfer">("barion");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -457,9 +459,34 @@ export default function OrderForm() {
             return;
         }
         setIsSubmitting(true);
-        if (formRef.current) {
-            formRef.current.submit();
-        }
+
+        // ── Tracking: Fire Lead event BEFORE SAPI form submission ──
+        const productNames: Record<string, string> = {
+            'töri': 'Történelem kurzus',
+            'magyar': 'Magyar kurzus',
+            'kombo': 'Kombo kurzus (Történelem + Magyar)',
+        };
+        trackLead(
+            {
+                email: formData.email,
+                firstName: formData.mssys_firstname,
+                lastName: formData.mssys_lastname,
+                phone: formData.mssys_mobile,
+                city: formData.mssys_bill_city,
+                zip: formData.mssys_bill_zip,
+                country: formData.mssys_bill_country,
+            },
+            productNames[selectedProduct] || selectedProduct,
+            finalPrice,
+            'HUF'
+        );
+
+        // Small delay to allow tracking fetch calls to fire
+        setTimeout(() => {
+            if (formRef.current) {
+                formRef.current.submit();
+            }
+        }, 300);
     };
 
     if (!tier) return null;

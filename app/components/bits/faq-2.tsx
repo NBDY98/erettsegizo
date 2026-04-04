@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import Link from "next/link";
 import { getCurrentPriceTier, formatPrice } from "@/app/lib/pricing";
 
 export default function FAQ2() {
@@ -70,9 +71,13 @@ export default function FAQ2() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4"
                         >
-                            <button className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#ff3b30] text-white font-poppins-bold text-sm sm:text-base hover:bg-[#e7625b] hover:scale-105 transition-colors duration-200 whitespace-nowrap">
-                                Jelentkezem {tier ? formatPrice(tier.isCombo ? tier.comboPrice : tier.price) : "..."}-ért
-                            </button>
+                            <Link 
+                                href="/jelentkezes"
+                                className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#ff3b30] text-white font-poppins-bold text-sm sm:text-base hover:bg-[#e7625b] hover:scale-105 transition-all duration-200 whitespace-nowrap text-center flex flex-col items-center justify-center"
+                            >
+                                <span>Jelentkezem {tier ? formatPrice(tier.price) : "..."}-tól</span>
+                                {tier?.isCombo && <span className="text-[10px] opacity-80">(Töri, Magyar vagy Kombo)</span>}
+                            </Link>
                         </motion.div>
                     </div>
 
