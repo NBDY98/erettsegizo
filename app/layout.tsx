@@ -63,6 +63,7 @@ export default async function RootLayout({
 				<Toaster position="top-center" richColors />
 				<TrackingScripts />
 				{/* Meta Pixel noscript fallback */}
+				{/* teszt */}
 				<noscript>
 					<img
 						height="1"
