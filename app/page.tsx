@@ -90,7 +90,7 @@ export default async function Home() {
             <SchemaOrg schema={organizationSchema} />
             <SchemaOrg schema={courseSchema} />
             <SchemaOrg schema={faqSchema} />
-            
+
             <Hero />
             <ProblemSection />
             <TargetSection />
