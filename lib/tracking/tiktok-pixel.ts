@@ -61,10 +61,20 @@ export function initTikTokPixel(): void {
 export function trackTikTokEvent(
   eventName: string,
   eventId: string,
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  retries = 0
 ): void {
-  if (!PIXEL_ID || !isTtqReady()) {
-    trackingLog('TikTok', `Pixel not ready — skipping ${eventName}`, { eventId });
+  if (!PIXEL_ID) {
+    if (retries === 0) trackingLog('TikTok', `Pixel ID not configured — skipping ${eventName}`);
+    return;
+  }
+
+  if (!isTtqReady()) {
+    if (retries < 10) {
+      setTimeout(() => trackTikTokEvent(eventName, eventId, params, retries + 1), 500);
+    } else {
+      trackingLog('TikTok', `Pixel not ready after 10 retries — skipping ${eventName}`, { eventId });
+    }
     return;
   }
 

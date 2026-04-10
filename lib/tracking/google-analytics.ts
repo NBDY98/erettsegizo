@@ -51,10 +51,20 @@ export function initGAPixel(): void {
  */
 export function trackGAEvent(
   eventName: string,
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  retries = 0
 ): void {
-  if (!MEASUREMENT_ID || !isGtagReady()) {
-    trackingLog('GA4', `Pixel not ready — skipping ${eventName}`);
+  if (!MEASUREMENT_ID) {
+    if (retries === 0) trackingLog('GA4', `Measurement ID not configured — skipping ${eventName}`);
+    return;
+  }
+
+  if (!isGtagReady()) {
+    if (retries < 10) {
+      setTimeout(() => trackGAEvent(eventName, params, retries + 1), 500);
+    } else {
+      trackingLog('GA4', `Pixel not ready after 10 retries — skipping ${eventName}`);
+    }
     return;
   }
 

@@ -50,10 +50,20 @@ export function initMetaPixel(): void {
 export function trackMetaEvent(
   eventName: string,
   eventId: string,
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  retries = 0
 ): void {
-  if (!PIXEL_ID || !isFbqReady()) {
-    trackingLog('Meta', `Pixel not ready — skipping ${eventName}`, { eventId });
+  if (!PIXEL_ID) {
+    if (retries === 0) trackingLog('Meta', `Pixel ID not configured — skipping ${eventName}`);
+    return;
+  }
+
+  if (!isFbqReady()) {
+    if (retries < 10) {
+      setTimeout(() => trackMetaEvent(eventName, eventId, params, retries + 1), 500);
+    } else {
+      trackingLog('Meta', `Pixel not ready after 10 retries — skipping ${eventName}`, { eventId });
+    }
     return;
   }
 

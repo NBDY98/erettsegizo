@@ -31,11 +31,11 @@ export default function TrackingScripts() {
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-            strategy="lazyOnload"
+            strategy="afterInteractive"
           />
           <Script
             id="ga4-pixel"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
                 window.dataLayer = window.dataLayer || [];
@@ -55,7 +55,7 @@ export default function TrackingScripts() {
       {META_PIXEL_ID && (
         <Script
           id="meta-pixel"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               !function(f,b,e,v,n,t,s)
@@ -76,7 +76,7 @@ export default function TrackingScripts() {
       {TIKTOK_PIXEL_ID && (
         <Script
           id="tiktok-pixel"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               !function (w, d, t) {
