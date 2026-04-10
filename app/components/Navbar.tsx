@@ -54,7 +54,7 @@ function CountdownBlock({ value, label, large }: { value: number; label: string;
 
 function NavCountdown({ dark, large, monochrome }: { dark?: boolean; large?: boolean; monochrome?: boolean }) {
     const { days, hours, minutes, seconds, tierLabel, deadlineLabel } = useDeadlineCountdown();
-    
+
     const glowColor = monochrome ? "bg-white/20" : (dark ? "bg-black/20" : "bg-[#CEFF06]/40");
     const wrapperClasses = monochrome
         ? "border-white/10 bg-white/5 text-white"
@@ -133,10 +133,10 @@ export default function Navbar() {
     }, [isMenuOpen]);
 
     const logoSrc = (scrolled && isHome) ? "/svg/erettsegizo-b.svg" : "/svg/erettsegizo-w.svg";
-    
+
     // On subpages, we want a white logo on the grey background if not scrolled, or black if we decide to blur white.
     // Actually, the user says "grey background" for subpages.
-    const effectiveLogoSrc = isHome 
+    const effectiveLogoSrc = isHome
         ? (isMenuOpen ? "/svg/erettsegizo-w.svg" : logoSrc)
         : "/svg/erettsegizo-w.svg";
 
@@ -169,10 +169,10 @@ export default function Navbar() {
     return (
         <>
             <nav className={`fixed top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 lg:px-24 font-poppins z-50 transition-all duration-300
-                ${isMenuOpen 
-                    ? "bg-[#1a1a1a] py-5 shadow-none" 
-                    : (scrolled && isHome) 
-                        ? "bg-white/80 backdrop-blur-md py-3 shadow-lg" 
+                ${isMenuOpen
+                    ? "bg-[#1a1a1a] py-5 shadow-none"
+                    : (scrolled && isHome)
+                        ? "bg-white/80 backdrop-blur-md py-3 shadow-lg"
                         : (isHome ? "bg-transparent py-5" : "bg-[#1a1a1a] py-5 shadow-lg")
                 }
                 ${navVisible || isMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}
@@ -190,14 +190,14 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex flex-1 justify-center z-50">
-                    <NavCountdown 
-                        dark={scrolled && isHome && !isMenuOpen} 
+                    <NavCountdown
+                        dark={scrolled && isHome && !isMenuOpen}
                         monochrome={!isHome && !isMenuOpen}
                     />
                 </div>
                 <div className="hidden md:flex items-center gap-8 lg:gap-14 flex-shrink-0">
                     <Link
-                        href="/"
+                        href="https://erettsegizo.hu"
                         onClick={() => setIsMenuOpen(false)}
                         className={`${linkColor} transition-colors duration-200 cursor-pointer`}
                     >
@@ -257,7 +257,7 @@ export default function Navbar() {
 
             <div className={`fixed inset-0 ${isHome ? "bg-primary" : "bg-[#1a1a1a]"} z-40 flex flex-col items-center justify-center pb-20 gap-8 transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}`}>
                 <Link
-                    href="/"
+                    href="https://erettsegizo.hu"
                     onClick={() => setIsMenuOpen(false)}
                     className="text-2xl text-nav-button-text hover:text-white transition-colors duration-200 cursor-pointer"
                 >
