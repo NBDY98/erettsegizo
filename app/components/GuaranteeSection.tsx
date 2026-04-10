@@ -32,19 +32,19 @@ function PriceUrgencyBlock() {
 export default function GuaranteeSection() {
     const slideData = [
         {
-            title: "Rédei Donát",
-            button: "Történelem felkészítő tanár",
-            src: "/images/tori/Donat.webp",
+            title: "Szalai Attila",
+            button: "AtiBá",
+            src: "/images/tori/Atiba.webp",
         },
         {
             title: "Kamráth Flórián",
-            button: "Történelem felkészítő tanár",
+            button: "Kuzi",
             src: "/images/tori/Kuzi.webp",
         },
         {
-            title: "Szalai Attila",
-            button: "Történelem felkészítő tanár",
-            src: "/images/tori/Atiba.webp",
+            title: "Rédei Donát",
+            button: "Donát",
+            src: "/images/tori/Donat.webp",
         },
     ];
     return (
