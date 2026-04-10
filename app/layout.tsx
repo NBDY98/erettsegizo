@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 		default: "Érettségiző - Az utolsó este az érettségi előtt",
 		template: "%s | Érettségiző.hu",
 	},
-	description: "Célzott érettségi felkészítő az utolsó pillanatban. Ismételjük át együtt a legfontosabb tételeket közvetlenül a magyar érettségi előtt egy szervezett online eseményen!",
+	description: "Célzott érettségi felkészítő az utolsó pillanatban. Ismételjük át együtt a legfontosabb tételeket.",
 	metadataBase: new URL("https://erettsegizo.hu"),
 	alternates: {
 		canonical: "/",
