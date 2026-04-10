@@ -425,25 +425,61 @@ export default function OrderForm() {
         return true;
     };
 
+    const fetchJSONP = (url: string): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+            const script = document.createElement('script');
+            script.src = `${url}&jsonp_callback=${callbackName}`;
+
+            (window as any)[callbackName] = (data: any) => {
+                delete (window as any)[callbackName];
+                document.body.removeChild(script);
+                resolve(data);
+            };
+
+            script.onerror = () => {
+                delete (window as any)[callbackName];
+                document.body.removeChild(script);
+                reject(new Error('JSONP kérés hiba'));
+            };
+
+            document.body.appendChild(script);
+        });
+    };
+
     const checkCoupon = async () => {
         if (!couponCode) return;
         setCouponStatus("checking");
         setCouponError("");
 
+        const NL_ID = "168092";
+        const NS_ID = "329707";
+        const TOKEN = "cWT66gKIVhUgrQKP4D4gGgXv58yg4xLgj6Syv3fIRbp84Accxv1774905883";
+
         try {
-            setTimeout(() => {
-                if (couponCode.toUpperCase() === "SIKER") {
-                    setCouponStatus("valid");
-                    setDiscount(1000);
+            const url = `https://sw-api.salesautopilot.com/api/check-coupon-json.php?mssys-character-encoding=utf-8&nl_id=${NL_ID}&ns_id=${NS_ID}&token=${TOKEN}&mssys_coupon=${encodeURIComponent(couponCode)}`;
+
+            const data = await fetchJSONP(url);
+
+            if (data.response === '1' && data.coData) {
+                setCouponStatus("valid");
+                const discountValue = Number(data.coData.co_amount);
+
+                if (!isNaN(discountValue)) {
+                    setDiscount(discountValue);
                 } else {
-                    setCouponStatus("invalid");
-                    setCouponError("Érvénytelen kuponkód.");
                     setDiscount(0);
                 }
-            }, 1000);
-        } catch {
+            } else {
+                setCouponStatus("invalid");
+                setCouponError("Érvénytelen kuponkód!");
+                setDiscount(0);
+            }
+        } catch (error) {
+            console.error("Kupon hiba:", error);
             setCouponStatus("invalid");
-            setCouponError("Hiba történt az ellenőrzés során.");
+            setCouponError("Hiba az ellenőrzés során.");
+            setDiscount(0);
         }
     };
 
