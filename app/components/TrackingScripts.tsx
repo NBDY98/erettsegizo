@@ -1,7 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTracking } from '@/hooks/useTracking';
 import { captureFbclid, captureTtclid } from '@/lib/tracking';
 
@@ -11,17 +11,47 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
 
 export default function TrackingScripts() {
   const { trackPageView } = useTracking();
+  const [isInteractive, setIsInteractive] = useState(false);
 
   useEffect(() => {
     captureFbclid();
     captureTtclid();
 
-    const timer = setTimeout(() => {
-      trackPageView();
-    }, 500);
+    // Trigger tracking scripts on user interaction
+    const handleInteraction = () => {
+      setIsInteractive(true);
+    };
 
-    return () => clearTimeout(timer);
-  }, [trackPageView]);
+    const events = ['scroll', 'mousemove', 'touchstart', 'keydown', 'click'];
+    
+    // Once any interaction happens, we enable tracking.
+    const enableTracking = () => {
+      if (!isInteractive) setIsInteractive(true);
+      events.forEach((event) => window.removeEventListener(event, handleInteraction));
+    };
+
+    events.forEach((event) => window.addEventListener(event, handleInteraction, { once: true, passive: true }));
+
+    // Fallback: If the user just stares at the screen for 3.5 seconds, start tracking anyway.
+    const fallbackTimer = setTimeout(enableTracking, 3500);
+
+    return () => {
+      events.forEach((event) => window.removeEventListener(event, handleInteraction));
+      clearTimeout(fallbackTimer);
+    };
+  }, [isInteractive]);
+
+  useEffect(() => {
+    if (isInteractive) {
+      // Small delay after scripts are injected to fire initial pageview
+      const timer = setTimeout(() => {
+        trackPageView();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isInteractive, trackPageView]);
+
+  if (!isInteractive) return null;
 
   return (
     <>
