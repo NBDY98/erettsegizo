@@ -33,7 +33,7 @@ export default function TrackingScripts() {
     events.forEach((event) => window.addEventListener(event, handleInteraction, { once: true, passive: true }));
 
     // Fallback: If the user just stares at the screen for 3.5 seconds, start tracking anyway.
-    const fallbackTimer = setTimeout(enableTracking, 3500);
+    const fallbackTimer = setTimeout(enableTracking, 12000);
 
     return () => {
       events.forEach((event) => window.removeEventListener(event, handleInteraction));
