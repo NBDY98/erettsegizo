@@ -37,6 +37,8 @@ const GlitterWarp: React.FC<GlitterWarpProps> = ({
     const rafRef = useRef<number>(0);
     const startTimeRef = useRef<number>(0);
     const isPausedRef = useRef<boolean>(!autoPlay);
+    const isVisibleRef = useRef<boolean>(true);
+    const lastFrameTimeRef = useRef<number>(0);
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -67,7 +69,7 @@ const GlitterWarp: React.FC<GlitterWarpProps> = ({
         });
         renderer.setClearColor(0x000000, 0);
 
-        const pixelRatio = Math.min(window.devicePixelRatio, 2);
+        const pixelRatio = Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1 : 2);
         renderer.setSize(actualWidth, actualHeight, false);
         renderer.setPixelRatio(pixelRatio);
 
@@ -169,12 +171,22 @@ const GlitterWarp: React.FC<GlitterWarpProps> = ({
         scene.add(mesh);
 
         startTimeRef.current = performance.now();
+        const targetFps = window.innerWidth < 768 ? 12 : 30;
+        const frameInterval = 1000 / targetFps;
 
         const animate = () => {
             rafRef.current = requestAnimationFrame(animate);
 
+            // Skip frame if not visible or throttled
+            if (!isVisibleRef.current) return;
+
+            const now = performance.now();
+            const delta = now - lastFrameTimeRef.current;
+            if (delta < frameInterval) return;
+            lastFrameTimeRef.current = now - (delta % frameInterval);
+
             if (!isPausedRef.current) {
-                const elapsed = (performance.now() - startTimeRef.current) / 1000;
+                const elapsed = (now - startTimeRef.current) / 1000;
                 uniforms.iTime.value = elapsed * speed;
             }
 
@@ -182,6 +194,13 @@ const GlitterWarp: React.FC<GlitterWarpProps> = ({
         };
 
         animate();
+
+        // Pause animation when off-screen
+        const observer = new IntersectionObserver(
+            ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
+            { threshold: 0 }
+        );
+        observer.observe(container);
 
         const handleResize = () => {
             const newRect = container.getBoundingClientRect();
@@ -199,6 +218,7 @@ const GlitterWarp: React.FC<GlitterWarpProps> = ({
 
         return () => {
             window.removeEventListener("resize", handleResize);
+            observer.disconnect();
             cancelAnimationFrame(rafRef.current);
             scene.remove(mesh);
             geometry.dispose();
