@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import * as THREE from "three";
+import {
+    WebGLRenderer, Scene, OrthographicCamera, ShaderMaterial,
+    PlaneGeometry, Mesh, Vector3,
+    CustomBlending, AddEquation, OneFactor, OneMinusSrcAlphaFactor
+} from "three";
 import { cn } from "@/lib/utils";
 
 export interface GlitterWarpProps {
@@ -62,7 +66,7 @@ const GlitterWarp: React.FC<GlitterWarpProps> = ({
         const actualWidth = rect.width;
         const actualHeight = rect.height;
 
-        const renderer = new THREE.WebGLRenderer({
+        const renderer = new WebGLRenderer({
             antialias: true,
             alpha: true,
             powerPreference: "high-performance",
@@ -79,16 +83,16 @@ const GlitterWarp: React.FC<GlitterWarpProps> = ({
 
         container.appendChild(renderer.domElement);
 
-        const scene = new THREE.Scene();
-        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const scene = new Scene();
+        const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
         const bufferWidth = actualWidth * pixelRatio;
         const bufferHeight = actualHeight * pixelRatio;
 
         const uniforms = {
             iTime: { value: 0 },
-            iResolution: { value: new THREE.Vector3(bufferWidth, bufferHeight, 1.0) },
-            uColor: { value: new THREE.Vector3(rgb.r, rgb.g, rgb.b) },
+            iResolution: { value: new Vector3(bufferWidth, bufferHeight, 1.0) },
+            uColor: { value: new Vector3(rgb.r, rgb.g, rgb.b) },
             uDensity: { value: density },
             uBrightness: { value: brightness },
             uStarSize: { value: starSize },
@@ -152,22 +156,22 @@ const GlitterWarp: React.FC<GlitterWarpProps> = ({
       }
     `;
 
-        const material = new THREE.ShaderMaterial({
+        const material = new ShaderMaterial({
             uniforms,
             vertexShader,
             fragmentShader,
             transparent: true,
-            blending: THREE.CustomBlending,
-            blendEquation: THREE.AddEquation,
-            blendSrc: THREE.OneFactor,
-            blendDst: THREE.OneMinusSrcAlphaFactor,
+            blending: CustomBlending,
+            blendEquation: AddEquation,
+            blendSrc: OneFactor,
+            blendDst: OneMinusSrcAlphaFactor,
             depthTest: false,
             depthWrite: false,
             premultipliedAlpha: true,
         });
 
-        const geometry = new THREE.PlaneGeometry(2, 2);
-        const mesh = new THREE.Mesh(geometry, material);
+        const geometry = new PlaneGeometry(2, 2);
+        const mesh = new Mesh(geometry, material);
         scene.add(mesh);
 
         startTimeRef.current = performance.now();
