@@ -2,48 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import StaggeredText from './bits/staggered-text';
-import { CheckCircle, Clock, Zap, Lightbulb, Moon } from 'lucide-react';
 import Image from 'next/image';
 import { getActiveSubjects } from '@/app/lib/pricing';
+import Link from 'next/link';
 
 const GlitterWarp = dynamic(() => import('./bits/glitter-warp'), { ssr: false });
 const Device = dynamic(() => import('./bits/device'), { ssr: false });
 const MessengerChat = dynamic(() => import('./MessengerChat'), { ssr: false });
-import Link from 'next/link';
+const StaggeredText = dynamic(() => import('./bits/staggered-text'), { ssr: false });
 
-const appleContentItems = [
-    {
-        label: "Felkészülés",
-        title: "Vezetett, Rendszeres áttekintés",
-        Icon: CheckCircle,
-        color: "from-[#152331] to-[#000000]"
-    },
-    {
-        label: "Hatékonyság",
-        title: "Teljes tananyag kronologikusan átlátva",
-        Icon: Clock,
-        color: "from-[#81ff8a] to-[#64965e]"
-    },
-    {
-        label: "Fókusz",
-        title: "Csak a lényeg – amit valóban tudnod kell",
-        Icon: Zap,
-        color: "from-[#2774ae] via-[#002E5D] to-[#002E5D]"
-    },
-    {
-        label: "Tipp",
-        title: "Vizsgastratégiai emlékeztetők",
-        Icon: Lightbulb,
-        color: "from-[#1f4037] to-[#99f2c8]"
-    },
-    {
-        label: "Lezárás",
-        title: "21:00-kor lezárjuk – és mehetsz aludni",
-        Icon: Moon,
-        color: "from-[#554023] to-[#c99846]"
-    }
-];
 
 export default function Hero() {
     const [subjects, setSubjects] = useState<string[]>([]);

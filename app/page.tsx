@@ -1,8 +1,9 @@
 import Hero from "./components/Hero";
-import ProblemSection from "./components/ProblemSection";
-import TargetSection from "./components/TargetSection";
 import dynamic from "next/dynamic";
 import SchemaOrg from "./components/SchemaOrg";
+
+const ProblemSection = dynamic(() => import("./components/ProblemSection"));
+const TargetSection = dynamic(() => import("./components/TargetSection"));
 
 const PricingSection = dynamic(() => import("./components/PricingSection"));
 const GuaranteeSection = dynamic(() => import("./components/GuaranteeSection"));
