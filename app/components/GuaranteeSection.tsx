@@ -23,7 +23,7 @@ function PriceUrgencyBlock() {
                 <Clock className="w-4 h-4 shrink-0" strokeWidth={3} /> {tier.label} {tier.deadlineLabel}-ig: {formatPrice(tier.isCombo ? tier.comboPrice : tier.price)}
             </p>
             <NavCountdown dark large />
-            <Link href="/jelentkezes" className="bg-[#ff3b30] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex flex-col items-center justify-center shadow-lg">
+            <Link href="/jelentkezes" className="bg-[#cc2b20] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex flex-col items-center justify-center shadow-lg">
                 <span>Jelentkezem</span>
             </Link>
         </div>

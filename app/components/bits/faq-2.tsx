@@ -64,7 +64,7 @@ export default function FAQ2() {
                     >
                         <Link
                             href="/jelentkezes"
-                            className="bg-[#ff3b30] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex flex-col items-center justify-center shadow-lg cursor-pointer"
+                            className="bg-[#cc2b20] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex flex-col items-center justify-center shadow-lg cursor-pointer"
                         >
                             <span>Jelentkezem</span>
                         </Link>
@@ -93,7 +93,7 @@ export default function FAQ2() {
                         >
                             <Link
                                 href="/jelentkezes"
-                                className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#ff3b30] text-white font-poppins-bold text-sm sm:text-base hover:bg-[#e7625b] hover:scale-105 transition-all duration-200 whitespace-nowrap text-center flex flex-col items-center justify-center"
+                                className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#cc2b20] text-white font-poppins-bold text-sm sm:text-base hover:bg-[#b0251c] hover:scale-105 transition-all duration-200 whitespace-nowrap text-center flex flex-col items-center justify-center"
                             >
                                 <span>Jelentkezem {tier ? formatPrice(tier.price) : "..."}-tól</span>
                                 {tier?.isCombo && <span className="text-[10px] opacity-80">(Töri, Magyar vagy Kombo)</span>}

@@ -112,7 +112,7 @@ export default function PricingSection() {
 
                     <Link
                         href="/jelentkezes"
-                        className="bg-[#ff3b30] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex flex-col items-center justify-center shadow-lg cursor-pointer"
+                        className="bg-[#cc2b20] text-white font-poppins-bold text-sm md:text-lg px-8 md:px-12 py-4 md:py-5 rounded-full hover:scale-105 transition-transform flex flex-col items-center justify-center shadow-lg cursor-pointer"
                     >
                         <span>Jelentkezem</span>
                     </Link>
