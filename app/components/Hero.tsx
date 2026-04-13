@@ -6,14 +6,17 @@ import Image from 'next/image';
 import { getActiveSubjects } from '@/app/lib/pricing';
 import Link from 'next/link';
 
+import DelayedMount from './bits/delayed-mount';
+import StaggeredText from './bits/staggered-text';
+
 const GlitterWarp = dynamic(() => import('./bits/glitter-warp'), { ssr: false });
 const Device = dynamic(() => import('./bits/device'), { ssr: false });
 const MessengerChat = dynamic(() => import('./MessengerChat'), { ssr: false });
-const StaggeredText = dynamic(() => import('./bits/staggered-text'), { ssr: false });
 
 export default function Hero() {
-    const [subjects, setSubjects] = useState<string[]>([]);
+    const [subjects, setSubjects] = useState<string[]>(getActiveSubjects());
 
+    // Keeping useEffect just in case local storage testing overrides the date.
     useEffect(() => {
         setSubjects(getActiveSubjects());
     }, []);
@@ -22,13 +25,15 @@ export default function Hero() {
         <div className="w-full bg-white relative overflow-x-hidden">
             <section className="relative w-full bg-primary rounded-b-none lg:rounded-b-[6rem] pt-32 pb-56 lg:pb-80 xl:pb-96 overflow-hidden z-10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
                 <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
-                    <GlitterWarp
-                        speed={1.5}
-                        color="#CEFF06"
-                        density={20}
-                        brightness={1.5}
-                        starSize={0.15}
-                    />
+                    <DelayedMount delayMs={1500}>
+                        <GlitterWarp
+                            speed={1.5}
+                            color="#CEFF06"
+                            density={20}
+                            brightness={1.5}
+                            starSize={0.15}
+                        />
+                    </DelayedMount>
                 </div>
 
                 <div className="container-main relative z-10 flex flex-col lg:flex-row items-start justify-between gap-12 lg:gap-4 px-4 sm:px-6 lg:px-8">
@@ -124,14 +129,16 @@ export default function Hero() {
             <div className="relative z-20 flex justify-center w-full mt-[-180px] sm:mt-[-190px] md:mt-[-190px] lg:mt-[-350px] xl:mt-[-400px] pointer-events-none px-4">
                 <div className="h-[660px] sm:h-[670px] md:h-[690px] lg:h-[740px] xl:h-[760px] flex justify-center pointer-events-auto overflow-visible">
                     <div className="origin-top scale-[0.56] sm:scale-[0.56] md:scale-[0.55] lg:scale-[0.6] xl:scale-[0.62] rounded-[6rem] relative">
-                        <Device
-                            isScrollable={false}
-                            scale={1}
-                            enableParallax={false}
-                            enableRotate={false}
-                        >
-                            <MessengerChat />
-                        </Device>
+                        <DelayedMount delayMs={1500}>
+                            <Device
+                                isScrollable={false}
+                                scale={1}
+                                enableParallax={false}
+                                enableRotate={false}
+                            >
+                                <MessengerChat />
+                            </Device>
+                        </DelayedMount>
                     </div>
                 </div>
             </div>
