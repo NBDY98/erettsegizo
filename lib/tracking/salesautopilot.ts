@@ -161,7 +161,7 @@ export function buildPurchaseCustomData(
     contentName: product,
     value,
     currency,
-    contentIds,
+    contentIds: contentIds && contentIds.length > 0 ? contentIds : [product],
     contentType: 'product',
   };
 }

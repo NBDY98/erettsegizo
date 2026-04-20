@@ -44,6 +44,7 @@ async function sendServerEvent(
     const response = await fetch(route, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
       body: JSON.stringify({
         eventName,
         eventId,

@@ -21,16 +21,25 @@ interface TikTokEventsApiResponse {
  * TikTok requires: SHA-256 hex digest for email, phone.
  */
 async function buildTikTokUser(userData: TrackingEventPayload['userData']) {
+  let finalPhone = userData.phone;
+  if (finalPhone) {
+    let formattedPhone = finalPhone.trim().replace(/[^\d+]/g, '');
+    if (formattedPhone.startsWith('06')) {
+        formattedPhone = '+36' + formattedPhone.slice(2);
+    }
+    finalPhone = formattedPhone;
+  }
+
   const [email, phone] = await Promise.all([
     hashForTracking(userData.email),
-    hashForTracking(userData.phone),
+    hashForTracking(finalPhone),
   ]);
 
   const user: Record<string, unknown> = {};
 
   // Hashed PII
   if (email) user.email = email;
-  if (phone) user.phone = phone;
+  if (phone) user.phone_number = phone;
 
   // Non-hashed identification
   if (userData.externalId) user.external_id = userData.externalId;
