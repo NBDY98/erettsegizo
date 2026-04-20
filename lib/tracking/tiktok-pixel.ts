@@ -70,10 +70,10 @@ export function trackTikTokEvent(
   }
 
   if (!isTtqReady()) {
-    if (retries < 10) {
+    if (retries < 30) {
       setTimeout(() => trackTikTokEvent(eventName, eventId, params, retries + 1), 500);
     } else {
-      trackingLog('TikTok', `Pixel not ready after 10 retries — skipping ${eventName}`, { eventId });
+      trackingLog('TikTok', `Pixel not ready after 30 retries — skipping ${eventName}`, { eventId });
     }
     return;
   }

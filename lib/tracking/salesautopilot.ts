@@ -23,22 +23,29 @@ const TRACKING_LEAD_DATA_COOKIE = '_trk_lead_data';
  */
 export function storeTrackingEventId(eventId: string): void {
   setCookie(TRACKING_EVENT_ID_COOKIE, eventId, 1); // 1 day expiry
-  trackingLog('SAPI', `Stored event_id in cookie: ${eventId}`);
+  if (typeof window !== 'undefined' && window.localStorage) {
+    try {
+      window.localStorage.setItem(TRACKING_EVENT_ID_COOKIE, eventId);
+    } catch {}
+  }
+  trackingLog('SAPI', `Stored event_id in cookie/storage: ${eventId}`);
 }
 
 /**
- * Retrieve the stored tracking event ID from cookie.
- * Used on the thank-you page to fire the Purchase event
- * with the same event_id as the Lead event.
+ * Retrieve the stored tracking event ID.
  */
 export function getStoredTrackingEventId(): string | undefined {
-  const eventId = getCookie(TRACKING_EVENT_ID_COOKIE);
+  let eventId = getCookie(TRACKING_EVENT_ID_COOKIE);
+  if (!eventId && typeof window !== 'undefined' && window.localStorage) {
+    try {
+      eventId = window.localStorage.getItem(TRACKING_EVENT_ID_COOKIE) || '';
+    } catch {}
+  }
   return eventId || undefined;
 }
 
 /**
- * Store lead data in a cookie so the Purchase event can reference it.
- * This is a compact JSON with minimal data needed for the Purchase conversion.
+ * Store lead data so the Purchase event can reference it.
  */
 export function storeLeadData(data: {
   email: string;
@@ -51,16 +58,18 @@ export function storeLeadData(data: {
 }): void {
   try {
     const compact = JSON.stringify(data);
-    setCookie(TRACKING_LEAD_DATA_COOKIE, compact, 1); // 1 day expiry
-    trackingLog('SAPI', 'Stored lead data in cookie');
+    setCookie(TRACKING_LEAD_DATA_COOKIE, compact, 1); // fallback
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem(TRACKING_LEAD_DATA_COOKIE, compact);
+    }
+    trackingLog('SAPI', 'Stored lead data in cookie/storage');
   } catch (error) {
     console.error('[Tracking:SAPI] Failed to store lead data:', error);
   }
 }
 
 /**
- * Retrieve stored lead data from cookie.
- * Used on the thank-you page to populate the Purchase event.
+ * Retrieve stored lead data.
  */
 export function getStoredLeadData(): {
   email: string;
@@ -72,7 +81,10 @@ export function getStoredLeadData(): {
   currency: string;
 } | undefined {
   try {
-    const raw = getCookie(TRACKING_LEAD_DATA_COOKIE);
+    let raw = getCookie(TRACKING_LEAD_DATA_COOKIE);
+    if (!raw && typeof window !== 'undefined' && window.localStorage) {
+      raw = window.localStorage.getItem(TRACKING_LEAD_DATA_COOKIE) || '';
+    }
     if (!raw) return undefined;
     return JSON.parse(raw);
   } catch {
