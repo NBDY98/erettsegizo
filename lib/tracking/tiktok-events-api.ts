@@ -106,6 +106,7 @@ export async function sendTikTokEvent(
       },
       user_agent: payload.userData.clientUserAgent,
       ip: payload.userData.clientIpAddress,
+      ...(payload.userData.ttclid ? { ad: { callback: payload.userData.ttclid } } : {}),
     },
   };
 
