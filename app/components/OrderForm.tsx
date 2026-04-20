@@ -1053,7 +1053,7 @@ export default function OrderForm() {
                                 name="character-encoding"
                                 value="utf-8"
                             />
-                            <input type="hidden" name="prod_id" value="3338243" />
+                            <input type="hidden" name="prod_id" value={selectedProduct === "kombo" ? "3338245" : selectedProduct === "magyar" ? "3338244" : "3338243"} />
                             <input
                                 type="hidden"
                                 name="mssys_lastname"
