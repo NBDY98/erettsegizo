@@ -113,7 +113,18 @@ export function trackTikTokPurchase(
   const params: Record<string, unknown> = {};
   if (customData?.value !== undefined) params.value = customData.value;
   if (customData?.currency) params.currency = customData.currency;
-  if (customData?.contentName) params.content_name = customData.contentName;
+  if (customData?.contentName) {
+    params.content_name = customData.contentName;
+    params.content_type = 'product';
+    params.contents = [
+      {
+        content_id: customData.contentName,
+        content_name: customData.contentName,
+        quantity: 1,
+        price: customData.value || 0,
+      },
+    ];
+  }
 
   trackTikTokEvent('CompletePayment', eventId, params);
 }
