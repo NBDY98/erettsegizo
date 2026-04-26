@@ -47,6 +47,16 @@ export default function GuaranteeSection() {
             button: "Donát",
             src: "/images/tori/Donat.webp",
         },
+        {
+            title: "Bordás Máté",
+            button: "Máté",
+            src: "/images/magyar/mate.webp",
+        },
+        {
+            title: "Konczer Kinga",
+            button: "Kinga",
+            src: "/images/magyar/kinga.webp",
+        },
     ];
     return (
         <section className="w-full py-16 md:py-24 bg-[#FAFAFA]">
