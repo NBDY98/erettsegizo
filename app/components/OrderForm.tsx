@@ -608,8 +608,6 @@ export default function OrderForm() {
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         {[
                                             { id: "töri", label: "Történelem", icon: History, active: true, price: tier.price },
-                                            { id: "magyar", label: "Magyar", icon: BookOpen, active: tier.subjects.includes("magyar"), price: tier.price },
-                                            { id: "kombo", label: "Kombo (Mindkettő)", icon: Sparkles, isCombo: true, active: tier.isCombo, price: tier.comboPrice },
                                         ]
                                             .filter(p => p.active)
                                             .map((prod) => (

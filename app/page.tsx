@@ -7,7 +7,6 @@ const TargetSection = dynamic(() => import("./components/TargetSection"));
 
 const PricingSection = dynamic(() => import("./components/PricingSection"));
 const GuaranteeSection = dynamic(() => import("./components/GuaranteeSection"));
-const LiteratureSection = dynamic(() => import("./components/LiteratureSection"));
 const HistorySection = dynamic(() => import("./components/HistorySection"));
 const FAQ2 = dynamic(() => import("./components/bits/faq-2"));
 
@@ -31,7 +30,7 @@ export default async function Home() {
         "@context": "https://schema.org",
         "@type": "Course",
         "name": "Érettségiző - Az utolsó este az érettségi előtt",
-        "description": "Intenzív, egyestés online érettségi felkészítő a legfontosabb magyar irodalom és történelem tételekből.",
+        "description": "Intenzív, egyestés online érettségi felkészítő a legfontosabb történelem tételekből.",
         "provider": {
             "@type": "Organization",
             "name": "Érettségiző.hu",
@@ -96,7 +95,6 @@ export default async function Home() {
             <ProblemSection />
             <TargetSection />
             <HistorySection />
-            <LiteratureSection />
             <PricingSection />
             <GuaranteeSection />
             {/* <WhyOnlineSection /> */}

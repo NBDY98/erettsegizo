@@ -21,23 +21,13 @@ export default function PricingSection() {
                 <div className="w-full max-w-4xl rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 md:p-16 flex flex-col items-center text-center shadow-sm">
                     <p className="font-poppins-bold text-black text-lg md:text-xl mb-2">Részvételi Díj</p>
                     <h2 className="font-poppins-extrab text-[3.25rem] sm:text-6xl md:text-[5.5rem] text-black mb-10 sm:mb-14 leading-none origin-bottom border-b-4 border-green pb-2">
-                        {tier.isCombo ? (
-                            <div className="flex flex-col items-center">
-                                <span className="text-4xl md:text-5xl opacity-40 line-through mb-2">{formatPrice(tier.price * 2)} helyett</span>
-                                <span>{formatPrice(tier.comboPrice)}</span>
-                                <span className="text-xl md:text-2xl font-poppins-med mt-2 opacity-60">(Mindkét tárgy együtt)</span>
-                            </div>
-                        ) : (
-                            formatPrice(tier.price)
-                        )}
+                        {formatPrice(tier.price)}
                     </h2>
 
                     {/* Informational Cards Row */}
                     <div className="flex flex-wrap items-center justify-center gap-4 mb-14 w-full max-w-4xl">
                         {[
                             { id: "töri", label: "Történelem", icon: History, active: true, price: tier.price },
-                            { id: "magyar", label: "Magyar", icon: BookOpen, active: tier.subjects.includes("magyar"), price: tier.price },
-                            { id: "kombo", label: "Kombo (Mindkettő)", icon: Sparkles, isCombo: true, active: tier.isCombo, price: tier.comboPrice },
                         ]
                             .filter(p => p.active)
                             .map((prod) => (
@@ -105,7 +95,7 @@ export default function PricingSection() {
 
                     <div className="w-full max-w-2xl mb-6 flex flex-col items-center gap-2">
                         <p className="flex items-center gap-2 text-sm font-poppins-bold uppercase tracking-[0.15em] text-red-700">
-                            <Clock className="w-4 h-4 shrink-0" strokeWidth={3} /> {tier.label} {tier.deadlineLabel}-ig: {formatPrice(tier.isCombo ? tier.comboPrice : tier.price)}
+                            <Clock className="w-4 h-4 shrink-0" strokeWidth={3} /> {tier.label} {tier.deadlineLabel}-ig: {formatPrice(tier.price)}
                         </p>
                         <NavCountdown dark large />
                     </div>

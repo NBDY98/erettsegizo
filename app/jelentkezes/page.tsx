@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Jelentkezés a felkészítőre",
-    description: "Biztosítsd a helyed az intenzív érettségi felkészítőre! Készüljünk fel együtt célzottan, a legfontosabb magyar és történelem tételekből az utolsó pillanatban is.",
+    description: "Biztosítsd a helyed az intenzív érettségi felkészítőre! Készüljünk fel együtt célzottan, a legfontosabb történelem tételekből az utolsó pillanatban is.",
     alternates: {
         canonical: "/jelentkezes",
     },
